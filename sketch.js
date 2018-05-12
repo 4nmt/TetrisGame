@@ -3,8 +3,10 @@ let boardGame;
 let fr;
 let randomBlock;
 let mySound;
-
+let isPressed;
 let play = false;
+
+
 const WIDTH_MAP = 450;
 const HEIGHT_MAP = 560;
 
@@ -19,9 +21,9 @@ const HEIGHT_MAP = 560;
 function setup() {
 
     //sound
-  //  mySound = new Audio("Tetris.mp3");
- //   mySound.play();
-   // mySound.loop = true
+      mySound = new Audio("Tetris.mp3");
+        mySound.play();
+    // mySound.loop = true
     createCanvas(WIDTH_MAP, HEIGHT_MAP);
     //board
     boardGame = new Board(10, 20);
@@ -31,6 +33,7 @@ function setup() {
     tBlock = switchBlocks(randomBlock);
 
     //next block
+    randomBlock = Math.floor(random(0, 7))
     demoBlock = switchBlocks(randomBlock);
     blockAlign(randomBlock, demoBlock)
 
@@ -39,56 +42,54 @@ function setup() {
 
 
 }
-let isPressed;
+
 
 function draw() {
 
 
-    if (play == false) {
+    isPressed = false;
+    fr = 20;
 
-    } else {
-        isPressed = false;
-        fr = 20;
+    background('#2c3e50');
 
-        background('#2c3e50');
+    // demo text
+    textSize(30);
+    fill(255);
+    textFont('century gothic');
+    text('Next', 340, 30);
 
-        // demo text
-        textSize(30);
-        fill(255);
-        textFont('century gothic');
-        text('Next', 340, 30);
-
-        //demo block
-        noFill();
-        rect(320, 40, 120, 120);
+    //demo block
+    noFill();
+    rect(320, 40, 120, 120);
 
 
-        frameRate(fr);
+    frameRate(fr);
 
-        if (frameCount % 20 == 0 && isPressed == false)
-            tBlock.move(1, 0)
+    if (frameCount % 20 == 0 && isPressed == false)
+        tBlock.move(1, 0)
 
+    demoBlock.draw();
+    boardGame.drawBoard();
+    keyMove();
+    tBlock.draw();
 
-        boardGame.drawBoard();
-        keyMove();
-        tBlock.draw();
+    if (boardGame.collide(tBlock)) {
+
+        boardGame.merge(tBlock);
+        
+
+        tBlock = switchBlocks(randomBlock);
+        randomBlock = Math.floor(random(0, 7))
+        demoBlock = switchBlocks(randomBlock);
+        blockAlign(randomBlock, demoBlock)
+        boardGame.getScores();
 
         if (boardGame.collide(tBlock)) {
-
-            boardGame.merge(tBlock);
-            randomBlock = Math.floor(random(0, 7))
-
-            tBlock = switchBlocks(randomBlock);
-            demoBlock = switchBlocks(randomBlock);
-            blockAlign(randomBlock, demoBlock)
-            boardGame.getScores();
-
-            if (boardGame.collide(tBlock)) {
-                boardGame.clear();
-            }
-            console.table(boardGame.matrix)
+            boardGame.clear();
         }
+        console.table(boardGame.matrix)
     }
+
 
 }
 var switchBlocks = function (key) {
