@@ -2,10 +2,10 @@ let tBlock, demoBlock;
 let boardGame;
 let fr;
 let randomBlock;
-let mySound;
+let mySound, blockFallSound;
 let isPressed;
 let play = false;
-
+let pause = 0;
 
 const WIDTH_MAP = 450;
 const HEIGHT_MAP = 560;
@@ -15,16 +15,24 @@ const HEIGHT_MAP = 560;
 //  , new JBlock(0, 3), new SBlock(0, 3), new ZBlock(0, 3)]
 
 
+let btnPause;
+let btnQuit;
+
+var myCanvas;
+
 
 
 
 function setup() {
 
     //sound
-      mySound = new Audio("Tetris.mp3");
-        mySound.play();
+    mySound = new Audio("sounds/Tetris.mp3");
+    blockFallSound = new Audio("sounds/SFX_PieceHardDrop.ogg")
+    mySound.volume = 0.2;
+    mySound.play();
     // mySound.loop = true
-    createCanvas(WIDTH_MAP, HEIGHT_MAP);
+    myCanvas = createCanvas(WIDTH_MAP, HEIGHT_MAP);
+    myCanvas.parent('container');
     //board
     boardGame = new Board(10, 20);
 
@@ -38,11 +46,24 @@ function setup() {
     blockAlign(randomBlock, demoBlock)
 
     // menu
+    btnPause = createButton('Pause');
+    btnPause.parent('container');
+    btnPause.position(WIDTH_MAP - 100, HEIGHT_MAP - 50);
+    btnPause.mousePressed(pauseGame);
+    //  btnPause.parent('canvas');
+
 
 
 
 }
 
+function pauseGame() {
+    if (++pause % 2) {
+
+        boardGame.pause();
+        noLoop()
+    } else loop();
+}
 
 function draw() {
 
@@ -50,7 +71,7 @@ function draw() {
     isPressed = false;
     fr = 20;
 
-    background('#2c3e50');
+    background('#34495e');
 
     // demo text
     textSize(30);
@@ -63,6 +84,7 @@ function draw() {
     rect(320, 40, 120, 120);
 
 
+
     frameRate(fr);
 
     if (frameCount % 20 == 0 && isPressed == false)
@@ -72,11 +94,15 @@ function draw() {
     boardGame.drawBoard();
     keyMove();
     tBlock.draw();
+    if (pause % 2) {
 
+        boardGame.pause();
+
+    }
     if (boardGame.collide(tBlock)) {
-
+        blockFallSound.play();
         boardGame.merge(tBlock);
-        
+
 
         tBlock = switchBlocks(randomBlock);
         randomBlock = Math.floor(random(0, 7))

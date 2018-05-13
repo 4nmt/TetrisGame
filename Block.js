@@ -51,10 +51,7 @@ class Block {
         return this.matrix;;
     }
 
-    cloneBlock(){
-        var tmp = this;
-        return tmp;
-    }
+
 
 }
 

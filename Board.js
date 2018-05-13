@@ -12,9 +12,6 @@ class Board {
 
 
     drawBoard() {
-
-      
-
         for (let i = 0; i < this.height; i++) {
             for (let j = 0; j < this.width; j++) {
 
@@ -22,8 +19,7 @@ class Board {
                     //console.log(this.matrix[i][j])
                     fill(BLOCK_COLORS[this.matrix[i][j]]);
                     rect(j * SCALE, i * SCALE, SCALE, SCALE, RADIUS);
-                }
-                else{
+                } else {
                     strokeWeight(4);
                     stroke(51);
                     noFill();
@@ -35,13 +31,30 @@ class Board {
 
     }
 
+    pause() {
+        for (let i = 0; i < this.height; i++) {
+            for (let j = 0; j < this.width; j++) {
+                // strokeWeight(4);
+                fill('#2c3e50');
+                rect(j * SCALE, i * SCALE, SCALE, SCALE, RADIUS);
+                // demo text
+                textSize(40);
+                fill(255);
+                textFont('century gothic');
+                text('Paused', 75, 220);
 
-     checkFullRow(i) {
-         return this.matrix[i].every((x) => x != 0)
-     }
+            }
+
+        }
+    }
+
+
+    checkFullRow(i) {
+        return this.matrix[i].every((x) => x != 0)
+    }
 
     getScores() {
-        
+
         let startIndex, finishIndex, flag = false;
 
         for (let i = 0; i < this.height; i++) {
@@ -50,23 +63,23 @@ class Board {
                     startIndex = i;
                     finishIndex = 1;
                     flag = true;
-    
-                } else finishIndex++;      
-                
+
+                } else finishIndex++;
+
             }
         }
-        if(startIndex && finishIndex){
-           
-            this.matrix.splice(startIndex,finishIndex);
-            
-            for(let i = 0 ; i < finishIndex;i++){
+        if (startIndex && finishIndex) {
+
+            this.matrix.splice(startIndex, finishIndex);
+
+            for (let i = 0; i < finishIndex; i++) {
                 var cloneArr = new Array(this.width).fill(0);
                 this.matrix.unshift(cloneArr);
             }
         }
     }
 
-   
+
 
     collide(player) {
         var [m, p] = [this.matrix, player];
@@ -87,7 +100,7 @@ class Board {
 
         for (let i = 0; i < p.matrix.length; i++) {
             for (let j = 0; j < p.matrix[i].length; j++) {
-                if (p.matrix[i][j] != 0 ) {
+                if (p.matrix[i][j] != 0) {
                     m[i + p.x][j + p.y] = p.matrix[i][j];
                 }
 
@@ -95,7 +108,7 @@ class Board {
         }
     }
 
-    clear(){
+    clear() {
         this.matrix.forEach(row => row.fill(0))
     }
 
