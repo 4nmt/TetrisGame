@@ -32,20 +32,15 @@ class Board {
     }
 
     pause() {
-        for (let i = 0; i < this.height; i++) {
-            for (let j = 0; j < this.width; j++) {
-                // strokeWeight(4);
-                fill('#2c3e50');
-                rect(j * SCALE, i * SCALE, SCALE, SCALE, RADIUS);
-                // demo text
-                textSize(40);
-                fill(255);
-                textFont('century gothic');
-                text('Paused', 75, 220);
 
-            }
 
-        }
+        fill('#2c3e50');
+        noStroke();
+        rect(0, 0, SCALE * this.width + 5, SCALE * this.height);
+        textSize(40);
+        fill(255);
+        //textFont('century gothic');
+        text('Paused', 70, 100);
     }
 
 
@@ -77,6 +72,8 @@ class Board {
                 this.matrix.unshift(cloneArr);
             }
         }
+
+        return finishIndex;
     }
 
 
