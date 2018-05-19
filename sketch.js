@@ -35,7 +35,7 @@ function setup() {
     mySound = new Audio("sounds/Tetris.mp3");
     blockFallSound = new Audio("sounds/SFX_PieceHardDrop.ogg")
     mySound.volume = 0.2;
-  
+    mySound.loop = true;
     
     myCanvas = createCanvas(WIDTH_MAP, HEIGHT_MAP);
     myCanvas.parent('container');
@@ -59,8 +59,8 @@ function setup() {
     btnPause.mousePressed(pauseGame);
     btnPause.id('idPause');
     btnPause.hide();
-    btnMusic = createImg('images/speaker.png');
 
+    btnMusic = createImg('images/speaker.png');
     btnMusic.parent('container');
     btnMusic.position(WIDTH_MAP - 180, HEIGHT_MAP - 45);
     btnMusic.mousePressed(musicGame);
@@ -180,8 +180,7 @@ function pauseGame() {
 
     if (++isPause % 2) {
         menuGame.showEle();
-        var a = noLoop()
-        console.log(a)
+        noLoop();
     } else {
         menuGame.hideEle();
         loop();

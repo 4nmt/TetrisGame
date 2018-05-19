@@ -9,9 +9,6 @@ class Menu {
         this.btnResume;
         this.btnHelp;
 
-        this.isPause = 0;
-
-
         this.window = window;
 
     }
@@ -66,24 +63,46 @@ class Menu {
     }
 
     options() {
-        this.menu.hide();
-        loop();
+        this.hideEle();
+        pauseGame();
     }
 
     help() {
-        this.menu.hide();
-        loop();
+        this.hideEle();
+        pauseGame();
     }
 
     quit() {
-         remove();
+
         this.hideEle();
         boardGame.clear();
-        
-        setup();
+        mySound.pause();
+        beginGame.isPlay = false;
+        beginGame.showEle();
+        btnPause.hide();
+        btnMusic.hide();
+
+
+        //block
+        randomBlock = Math.floor(random(0, 7))
+        tBlock = switchBlocks(randomBlock);
+
+        //next block
+        randomBlock = Math.floor(random(0, 7))
+        demoBlock = switchBlocks(randomBlock);
+        blockAlign(randomBlock, demoBlock)
+
+        sumScores = 0;
+        isMusic = 0;
+
+
+        btnMusic.elt.src = 'images/speaker.png';
+        mySound.volume = 0.2;
+        mySound.load();
+        blockFallSound.volume = 0.2;
         pauseGame();
-        noLoop();
-        
+
+
     }
 
 }
