@@ -79,9 +79,12 @@ class Menu {
         mySound.pause();
         beginGame.isPlay = false;
         beginGame.showEle();
+        beginGame.levels = 100;
+        beginGame.levelUp();
         btnPause.hide();
         btnMusic.hide();
 
+        time = 0;
 
         //block
         randomBlock = Math.floor(random(0, 7))

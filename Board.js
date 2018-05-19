@@ -34,8 +34,8 @@ class Board {
     pause() {
   
         fill('#2c3e50');
-        noStroke();
-        rect(0, 0, SCALE * this.width + 5, SCALE * this.height);
+       
+        rect(0, 0, SCALE * this.width , SCALE * this.height);
         textSize(40);
         fill(255);
         //textFont('century gothic');
