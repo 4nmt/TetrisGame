@@ -32,8 +32,7 @@ class Board {
     }
 
     pause() {
-
-
+  
         fill('#2c3e50');
         noStroke();
         rect(0, 0, SCALE * this.width + 5, SCALE * this.height);
