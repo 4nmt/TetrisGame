@@ -8,7 +8,7 @@ class Begin {
         this.btnPlay;
         this.banner;
 
-        this.levels = 1
+        this.levels = 0
         this.isPlay = false;
 
 
@@ -22,10 +22,11 @@ class Begin {
 
 
 
-        this.btnLevels = createButton('Levels: 1');
+        this.btnLevels = createButton('Level: Easy');
         this.btnLevels.parent('container');
-        this.btnLevels.position(WIDTH_MAP / 3, HEIGHT_MAP / 3 + 80);
+        this.btnLevels.position(WIDTH_MAP / 3.5, HEIGHT_MAP / 3 + 80);
         this.btnLevels.mousePressed(this.levelUp.bind(this));
+        this.btnLevels.style('width', 200 + "px");
 
         // helps
         this.btnPlay = createButton('Play');
@@ -52,8 +53,9 @@ class Begin {
 
     levelUp() {
 
-        this.levels = ++this.levels <= 10 ? this.levels : 1;
-        this.btnLevels.elt.innerHTML = `Level: ${this.levels}`;
+      
+        this.levels = ++this.levels <= 2 ? this.levels : 0;
+        this.btnLevels.elt.innerHTML = `Level: ${levelOptions[ this.levels]}`;
 
     }
 

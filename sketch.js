@@ -13,8 +13,9 @@ let sumScores = 0;
 const scoresArray = [40, 100, 400, 1200];
 const WIDTH_MAP = 500;
 const HEIGHT_MAP = 560;
+const levelOptions = ['Easy', 'Normal', 'Hard']
 
-
+const levelUp = [40, 10, 2]
 
 //const blockInstance = [new TBlock(0, 3), new IBlock(0, 3), new OBlock(0, 3), new LBlock(0, 3)
 //  , new JBlock(0, 3), new SBlock(0, 3), new ZBlock(0, 3)]
@@ -28,6 +29,10 @@ var myCanvas;
 let beginGame, isPlay = false;
 let menuGame;
 
+let time = 0;
+let timeStr;
+
+let pauseTime;
 
 function setup() {
 
@@ -36,7 +41,7 @@ function setup() {
     blockFallSound = new Audio("sounds/SFX_PieceHardDrop.ogg")
     mySound.volume = 0.2;
     mySound.loop = true;
-    
+
     myCanvas = createCanvas(WIDTH_MAP, HEIGHT_MAP);
     myCanvas.parent('container');
 
@@ -76,6 +81,7 @@ function setup() {
     beginGame.setup();
     beginGame.showEle();
 
+    pauseTime = setInterval(timer, 10);
     noLoop()
 }
 
@@ -86,7 +92,7 @@ function draw() {
 
 
     isPressed = false;
-    fr = 20;
+    fr = 100;
 
     background('#34495e');
 
@@ -109,30 +115,49 @@ function draw() {
         textSize(25);
         fill(255);
         textFont('century gothic');
-        text('Levels', 300, WIDTH_MAP / 2);
+        text('Level:', 300, WIDTH_MAP / 2);
 
+
+        textSize(25);
+        fill(255);
+        textFont('century gothic');
+        text(levelOptions[beginGame.levels], 400, WIDTH_MAP / 2);
         // scores text
         textSize(25);
         fill(255);
         textFont('century gothic');
-        text('Scores', 300, WIDTH_MAP / 2 + 50);
+        text('Scores:', 300, WIDTH_MAP / 2 + 50);
 
         textSize(25);
         fill(255);
         textFont('century gothic');
-        text(sumScores.toString(), 450, WIDTH_MAP / 2 + 50);
+        text(sumScores.toString(), 430, WIDTH_MAP / 2 + 50);
 
         //
+        // scores text
+        textSize(25);
+        fill(255);
+        textFont('century gothic');
+        text('Time:', 300, WIDTH_MAP / 2 + 100);
 
+        textSize(25);
+        fill(255);
+        textFont('century gothic');
+        text(timeStr, 370, WIDTH_MAP / 2 + 100);
+
+        keyMove();
         frameRate(fr);
-
-        if (frameCount % 20 == 0 && isPressed == false)
+        if (frameCount % levelUp[beginGame.levels] == 0 && isPressed == false)
             tBlock.move(1, 0)
 
         demoBlock.draw();
+
         boardGame.drawBoard();
-        keyMove();
+
         tBlock.draw();
+
+        if (time % 6000 == 0)
+            beginGame.levels++;
 
 
         if (isPause % 2) {
@@ -161,6 +186,23 @@ function draw() {
     }
 
 }
+
+// time
+
+function timer() {
+
+    ++time;
+
+    let sec = time % 100;
+    let ss = parseInt(time / 100);
+    let mm = parseInt(ss / 60);
+
+
+
+    timeStr = `${parseInt(mm/10)}${mm%10}:${parseInt(ss/10)}${ss%10}:${sec}`;
+
+}
+
 // btnMusic & btnPause
 function musicGame() {
 
@@ -178,11 +220,16 @@ function musicGame() {
 
 function pauseGame() {
 
+    clearInterval(pauseTime);
+
     if (++isPause % 2) {
         menuGame.showEle();
+        clearInterval(pauseTime);
+
         noLoop();
     } else {
         menuGame.hideEle();
+        pauseTime = setInterval(timer, 10);
         loop();
     }
 }
@@ -236,21 +283,30 @@ function blockAlign(key, block) {
 
 function keyMove() {
 
+
     if (keyIsDown(DOWN_ARROW)) {
+        fr = 40;
         isPressed = true;
         if (!boardGame.collide(tBlock))
             tBlock.move(1, 0);
 
     }
     if (keyIsDown(LEFT_ARROW)) {
+        fr = 40;
         tBlock.move(0, -1);
+        tBlock.move(-1, 0);
         if (boardGame.collide(tBlock))
             tBlock.move(0, 1);
+        tBlock.move(1, 0);
     }
     if (keyIsDown(RIGHT_ARROW)) {
+        fr = 40;
         tBlock.move(0, 1);
+        tBlock.move(-1, 0);
         if (boardGame.collide(tBlock))
             tBlock.move(0, -1);
+
+        tBlock.move(1, 0);
     }
 }
 
@@ -262,4 +318,12 @@ function keyPressed() {
         if (boardGame.collide(tBlock))
             tBlock.matrix = tmpArr;
     }
+    if (keyCode === 32) {   
+        isPressed = true;
+        for (let i = 0; i < 20; i++) {
+            if (!boardGame.collide(tBlock))
+                tBlock.move(1, 0);
+        }
+    }
+
 }
