@@ -15,7 +15,7 @@ const WIDTH_MAP = 500;
 const HEIGHT_MAP = 560;
 const levelOptions = ['Easy', 'Normal', 'Hard']
 
-const levelUp = [40, 10, 2]
+const levelSpeed = [40, 25, 10]
 
 //const blockInstance = [new TBlock(0, 3), new IBlock(0, 3), new OBlock(0, 3), new LBlock(0, 3)
 //  , new JBlock(0, 3), new SBlock(0, 3), new ZBlock(0, 3)]
@@ -27,6 +27,8 @@ let btnMusic, isMusic = 0;
 var myCanvas;
 
 let beginGame, isPlay = false;
+let endGame;
+
 let menuGame;
 
 let time = 0;
@@ -81,6 +83,11 @@ function setup() {
     beginGame.setup();
     beginGame.showEle();
 
+    endGame = new GameOver(isPlay, myCanvas, boardGame);
+    endGame.setup();
+    endGame.hideEle();
+
+
     pauseTime = setInterval(timer, 10);
     noLoop()
 }
@@ -93,7 +100,9 @@ function draw() {
 
     isPressed = false;
     fr = 100;
-
+    
+   // console.log("a");
+    
     background('#34495e');
 
     if (!beginGame.isPlay) {
@@ -147,23 +156,25 @@ function draw() {
 
         keyMove();
         frameRate(fr);
-        if (frameCount % levelUp[beginGame.levels] == 0 && isPressed == false)
+        if (frameCount % levelSpeed[beginGame.levels] == 0 && isPressed == false) {
             tBlock.move(1, 0)
-
+          
+            
+        }
         demoBlock.draw();
 
         boardGame.drawBoard();
 
         tBlock.draw();
 
-        if (time % 6000 == 0)
+        if (time % 6000 == 0 && time != 0)
             beginGame.levels++;
 
 
-        if (isPause % 2) {
+        if (isPause % 2) 
             boardGame.pause();
 
-        }
+        
         if (boardGame.collide(tBlock)) {
             blockFallSound.play();
             boardGame.merge(tBlock);
@@ -178,8 +189,11 @@ function draw() {
             if (scoreIndex)
                 sumScores += scoresArray[scoreIndex - 1]
 
-            if (boardGame.collide(tBlock))
-                boardGame.clear();
+            if (boardGame.collide(tBlock)) {
+                 tBlock.draw();
+                endGame.showEle();
+                boardGame.gameOver();
+            }
 
             // console.table(boardGame.matrix)
         }
@@ -196,8 +210,6 @@ function timer() {
     let sec = time % 100;
     let ss = parseInt(time / 100);
     let mm = parseInt(ss / 60);
-
-
 
     timeStr = `${parseInt(mm/10)}${mm%10}:${parseInt(ss/10)}${ss%10}:${sec}`;
 
@@ -318,12 +330,14 @@ function keyPressed() {
         if (boardGame.collide(tBlock))
             tBlock.matrix = tmpArr;
     }
-    if (keyCode === 32) {   
-        isPressed = true;
-        for (let i = 0; i < 20; i++) {
-            if (!boardGame.collide(tBlock))
-                tBlock.move(1, 0);
+    if (keyCode === 32) {
+     
+        while (!boardGame.collide(tBlock)) {
+            console.log("bb");
+            isPressed = true;
+            tBlock.move(1, 0);    
         }
+
     }
 
 }

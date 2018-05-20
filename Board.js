@@ -16,7 +16,7 @@ class Board {
             for (let j = 0; j < this.width; j++) {
 
                 if (this.matrix[i][j] != 0) {
-                    //console.log(this.matrix[i][j])
+                  
                     fill(BLOCK_COLORS[this.matrix[i][j]]);
                     rect(j * SCALE, i * SCALE, SCALE, SCALE, RADIUS);
                 } else {
@@ -32,14 +32,25 @@ class Board {
     }
 
     pause() {
-  
+
         fill('#2c3e50');
-       
-        rect(0, 0, SCALE * this.width , SCALE * this.height);
+
+        rect(0, 0, SCALE * this.width, SCALE * this.height);
         textSize(40);
         fill(255);
         //textFont('century gothic');
         text('Paused', 70, 100);
+    }
+
+    gameOver() {
+
+        fill('#2c3e50');
+
+        rect(0, 0, SCALE * this.width, SCALE * this.height);
+        textSize(40);
+        fill(255);
+        //textFont('century gothic');
+        text('Game Over', 20, 150);
     }
 
 
