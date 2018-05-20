@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Tetris Game</title>
+    <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
     <script src="p5.min.js"></script>
     <script src="addons/p5.sound.min.js"></script>
     <script src="addons/p5.dom.min.js"></script>
@@ -72,6 +73,41 @@
             width: 450px;
             height: 560px;
             position: relative;
+        }
+        #titleRow {
+            font-size: 18px;
+            color: white;
+        }
+        #playerName {
+            border-radius: 8px 0 0 0;
+            background: orange;
+            padding: 10px;
+        }
+        #playerScore {
+            background: #2980b9;
+            padding: 10px;
+            
+        }
+        #time {
+            border-radius: 0 8px 0 0;
+            padding: 10px;            
+            background: #2ecc71;
+        }
+        #recordRow {
+            font-size: 18px;
+        }
+        #recordName {
+            color: orange;
+            padding: 10px;
+        }
+        #recordScore {
+            color: #2980b9;
+            padding: 10px;
+            
+        }
+        #recordTime {
+            padding: 10px;            
+            color: #2ecc71;
         }
     </style>
 </head>

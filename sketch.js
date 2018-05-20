@@ -193,8 +193,9 @@ function draw() {
                  tBlock.draw();
                 endGame.showEle();
                 boardGame.gameOver();
+                saveScore(beginGame.playerName,sumScores,timeStr);
+                
             }
-
             // console.table(boardGame.matrix)
         }
     }
@@ -340,4 +341,31 @@ function keyPressed() {
 
     }
 
+}
+
+function saveScore(player,score,time) {
+    var playerData = {
+        "playerName":player,
+        "score":score,
+        "playTime":time
+    }
+    if(beginGame.isFirstLoad === null){
+       
+        var dataStore  = {
+            "playerData":[]
+        }
+        dataStore.playerData.push(playerData);
+        localStorage.setItem("dataStore",JSON.stringify(dataStore));
+        localStorage.setItem("firstLoad","1");
+        
+    }
+    else
+    {
+        var dataStore = localStorage.getItem("dataStore")
+        dataStore = JSON.parse(dataStore);
+        console.log(dataStore);
+        dataStore.playerData.push(playerData);
+        localStorage.setItem("dataStore",JSON.stringify(dataStore));        
+    }
+   
 }
