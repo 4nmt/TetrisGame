@@ -18,25 +18,25 @@ class Menu {
         // resume
         this.btnResume = createButton('Resume');
         this.btnResume.parent('container');
-        this.btnResume.position(WIDTH_MAP / 6, HEIGHT_MAP / 3);
+        this.btnResume.position(WIDTH_MAP / 6 - 12, HEIGHT_MAP / 3);
         this.btnResume.mousePressed(this.resume.bind(this));
 
         // options
         this.btnOption = createButton('Options');
         this.btnOption.parent('container');
-        this.btnOption.position(WIDTH_MAP / 6, HEIGHT_MAP / 3 + 80);
+        this.btnOption.position(WIDTH_MAP / 6 - 12, HEIGHT_MAP / 3 + 80);
         this.btnOption.mousePressed(this.options.bind(this));
 
         // helps
         this.btnHelp = createButton('Help');
         this.btnHelp.parent('container');
-        this.btnHelp.position(WIDTH_MAP / 6, HEIGHT_MAP / 3 + 80 * 2);
+        this.btnHelp.position(WIDTH_MAP / 6 - 12, HEIGHT_MAP / 3 + 80 * 2);
         this.btnHelp.mousePressed(this.help.bind(this));
 
         // quit
         this.btnQuit = createButton('Quit');
         this.btnQuit.parent('container');
-        this.btnQuit.position(WIDTH_MAP / 6, HEIGHT_MAP / 3 + 80 * 3);
+        this.btnQuit.position(WIDTH_MAP / 6 - 12, HEIGHT_MAP / 3 + 80 * 3);
         this.btnQuit.mousePressed(this.quit.bind(this));
 
     }

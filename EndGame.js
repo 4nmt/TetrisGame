@@ -18,13 +18,13 @@ class GameOver {
         // restart
         this.btnRestart = createButton('Restart');
         this.btnRestart.parent('container');
-        this.btnRestart.position(WIDTH_MAP / 6, HEIGHT_MAP / 3 + 80);
+        this.btnRestart.position(WIDTH_MAP / 6 - 12, HEIGHT_MAP / 3 + 80);
         this.btnRestart.mousePressed(this.restart.bind(this));
 
         // main menu
         this.btnMainMenu = createButton('Main menu');
         this.btnMainMenu.parent('container');
-        this.btnMainMenu.position(WIDTH_MAP / 6, HEIGHT_MAP / 3 + 80 * 2);
+        this.btnMainMenu.position(WIDTH_MAP / 6 - 12, HEIGHT_MAP / 3 + 80 * 2);
         this.btnMainMenu.mousePressed(this.main_menu.bind(this));
 
 

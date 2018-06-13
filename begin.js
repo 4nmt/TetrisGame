@@ -10,6 +10,7 @@ class Begin {
         this.btnBest;
         this.levels = 0
         this.isPlay = false;
+        this.isLose = false;
         this.playerName = '';
         this.firstLoad = localStorage.getItem("firstLoad");
         this.scoreBoard;
@@ -20,12 +21,12 @@ class Begin {
 
         this.banner = createImg('images/banner.jpg')
         this.banner.parent('container');
-        this.banner.position(WIDTH_MAP / 4, 30);
+        this.banner.position(WIDTH_MAP / 4 - 25, 30);
 
         this.inputPlayerName = createInput('');
         this.inputPlayerName.elt.placeholder = "Player name";
         this.inputPlayerName.parent('container');
-        this.inputPlayerName.position(WIDTH_MAP / 3, HEIGHT_MAP / 3 + 30);
+        this.inputPlayerName.position(WIDTH_MAP / 3 - 12, HEIGHT_MAP / 3 + 30);
         this.inputPlayerName.addClass('form-control')
         this.inputPlayerName.style('width', 200 + "px");
         this.inputPlayerName.style('height', 40 + "px");
@@ -34,19 +35,19 @@ class Begin {
 
         this.btnPlay = createButton('Play');
         this.btnPlay.parent('container');
-        this.btnPlay.position(WIDTH_MAP / 3, HEIGHT_MAP / 3 + 80);
+        this.btnPlay.position(WIDTH_MAP / 3 - 12, HEIGHT_MAP / 3 + 80);
         this.btnPlay.style('width', 200 + "px");
         this.btnPlay.mousePressed(this.play.bind(this));
 
         this.btnLevels = createButton('Level: Easy');
         this.btnLevels.parent('container');
-        this.btnLevels.position(WIDTH_MAP / 3, HEIGHT_MAP / 3 + 160);
+        this.btnLevels.position(WIDTH_MAP / 3 - 12, HEIGHT_MAP / 3 + 160);
         this.btnLevels.mousePressed(this.levelUp.bind(this));
         this.btnLevels.style('width', 200 + "px");
 
         this.btnBest = createButton('Best');
         this.btnBest.parent('container');
-        this.btnBest.position(WIDTH_MAP / 3, HEIGHT_MAP / 3 + 240);
+        this.btnBest.position(WIDTH_MAP / 3 - 12, HEIGHT_MAP / 3 + 240);
         this.btnBest.style('width', 200 + "px");
         this.btnBest.mousePressed(this.best.bind(this));
 
@@ -114,6 +115,7 @@ class Begin {
         else {
             this.isPlay = true
             this.playerName = this.inputPlayerName.value();
+            this.isLose = false;
             this.hideEle();
             btnPause.show();
             btnMusic.show();
@@ -129,14 +131,15 @@ class Begin {
         }
         else {
             this.scoreBoard.show();
+            this.firstLoad = localStorage.getItem("firstLoad");
             if (this.firstLoad != null) {
                 var dataStore = localStorage.getItem("dataStore")
                 dataStore = JSON.parse(dataStore);
                 dataStore.playerData.sort(GetSortOrder('score'));
                 var count = 0;
-                var record = document.getElementsByClassName("recordRow");
-                for (let i = 0; i < record.length; i++) {
-                    record[i].remove();
+                var record = document.getElementById("recordRow");
+                if (record != null) {
+                    record.parentNode.removeChild(record);
                 }
                 for (let i = dataStore.playerData.length - 1; i >= 0; i--) {
                     count++;

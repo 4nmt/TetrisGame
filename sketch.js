@@ -5,8 +5,6 @@ let randomBlock;
 let mySound, blockFallSound;
 let isPressed;
 let play = false;
-
-
 let scoreIndex;
 let sumScores = 0;
 
@@ -62,14 +60,14 @@ function setup() {
     // pause , music
     btnPause = createButton('Pause');
     btnPause.parent('container');
-    btnPause.position(WIDTH_MAP - 100, HEIGHT_MAP - 50);
+    btnPause.position(WIDTH_MAP - 110, HEIGHT_MAP - 65);
     btnPause.mousePressed(pauseGame);
     btnPause.id('idPause');
     btnPause.hide();
 
     btnMusic = createImg('images/speaker.png');
     btnMusic.parent('container');
-    btnMusic.position(WIDTH_MAP - 180, HEIGHT_MAP - 45);
+    btnMusic.position(WIDTH_MAP - 190, HEIGHT_MAP - 60);
     btnMusic.mousePressed(musicGame);
     btnMusic.id('idMusic');
     btnMusic.hide();
@@ -96,13 +94,11 @@ function setup() {
 
 
 function draw() {
-
-
     isPressed = false;
     fr = 100;
-    
-   // console.log("a");
-    
+
+    // console.log("a");
+
     background('#34495e');
 
     if (!beginGame.isPlay) {
@@ -158,8 +154,8 @@ function draw() {
         frameRate(fr);
         if (frameCount % levelSpeed[beginGame.levels] == 0 && isPressed == false) {
             tBlock.move(1, 0)
-          
-            
+
+
         }
         demoBlock.draw();
 
@@ -171,10 +167,10 @@ function draw() {
             beginGame.levels++;
 
 
-        if (isPause % 2) 
+        if (isPause % 2)
             boardGame.pause();
 
-        
+
         if (boardGame.collide(tBlock)) {
             blockFallSound.play();
             boardGame.merge(tBlock);
@@ -190,11 +186,16 @@ function draw() {
                 sumScores += scoresArray[scoreIndex - 1]
 
             if (boardGame.collide(tBlock)) {
-                 tBlock.draw();
+                tBlock.draw();
                 endGame.showEle();
+                if(beginGame.isLose === false){
+                    saveScore(beginGame.playerName, sumScores, timeStr);
+                    beginGame.isLose = true;
+                }
                 boardGame.gameOver();
-                saveScore(beginGame.playerName,sumScores,timeStr);
-                
+
+                console.log("111212");
+
             }
             // console.table(boardGame.matrix)
         }
@@ -212,7 +213,7 @@ function timer() {
     let ss = parseInt(time / 100);
     let mm = parseInt(ss / 60);
 
-    timeStr = `${parseInt(mm/10)}${mm%10}:${parseInt(ss/10)}${ss%10}:${sec}`;
+    timeStr = `${parseInt(mm / 10)}${mm % 10}:${parseInt(ss / 10)}${ss % 10}:${sec}`;
 
 }
 
@@ -332,40 +333,37 @@ function keyPressed() {
             tBlock.matrix = tmpArr;
     }
     if (keyCode === 32) {
-     
+
         while (!boardGame.collide(tBlock)) {
             console.log("bb");
             isPressed = true;
-            tBlock.move(1, 0);    
+            tBlock.move(1, 0);
         }
 
     }
 
 }
 
-function saveScore(player,score,time) {
-    var playerData = {
-        "playerName":player,
-        "score":score,
-        "playTime":time
-    }
-    if(beginGame.isFirstLoad === null){
-       
-        var dataStore  = {
-            "playerData":[]
+function saveScore(player, score, time) {
+        var playerData = {
+            "playerName": player,
+            "score": score,
+            "playTime": time
         }
-        dataStore.playerData.push(playerData);
-        localStorage.setItem("dataStore",JSON.stringify(dataStore));
-        localStorage.setItem("firstLoad","1");
-        
-    }
-    else
-    {
-        var dataStore = localStorage.getItem("dataStore")
-        dataStore = JSON.parse(dataStore);
-        console.log(dataStore);
-        dataStore.playerData.push(playerData);
-        localStorage.setItem("dataStore",JSON.stringify(dataStore));        
-    }
-   
+        if (beginGame.firstLoad === null) {
+    
+            var dataStore = {
+                "playerData": []
+            }
+            dataStore.playerData.push(playerData);
+            localStorage.setItem("dataStore", JSON.stringify(dataStore));
+            localStorage.setItem("firstLoad", "1");
+    
+        }
+        else {
+            var dataStore = localStorage.getItem("dataStore")
+            dataStore = JSON.parse(dataStore);
+            dataStore.playerData.push(playerData);
+            localStorage.setItem("dataStore", JSON.stringify(dataStore));
+        }
 }
